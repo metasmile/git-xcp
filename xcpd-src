@@ -1,5 +1,4 @@
 #!/bin/bash
-source $(dirname $0)/xcp-shared
 source $(dirname $0)/xcp-begin
 
 if [ "$1" == "--exclude-new-buildnum" ]; then

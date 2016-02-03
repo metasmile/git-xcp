@@ -1,4 +1,3 @@
-source $(dirname $0)/xcp-shared
 source $(dirname $0)/xcp-begin
 
 git checkout master

@@ -1,4 +1,3 @@
-source $(dirname $0)/xcp-shared
 source $(dirname $0)/xcp-begin
 
 plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
@@ -11,4 +10,5 @@ fi
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $2" $plist_path
 git add . && git commit -m "[Open - $1 - $2]" && git push origin $CURRENT_BRANCH
 echo $2
+
 source $(dirname $0)/xcp-end
