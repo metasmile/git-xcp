@@ -1,0 +1,16 @@
+#!/bin/bash
+function check_complict {
+	if $(git status --porcelain | grep UU); then
+	    echo Repo was Confilcted.; exit 1
+	fi
+}
+function check_clean {
+	if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+		echo Repo was NOT Cleaned.; exit 1
+	fi
+}
+STASH_ID="stash_id_tmp"
+function get_tmp_stash_id {
+	echo "$(git stash list | grep $STASH_ID | awk -F':' '{print $1}' | head -1)"
+}
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"

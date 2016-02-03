@@ -1,0 +1,27 @@
+#!/bin/bash
+source $(dirname $0)/xcp-shared
+source $(dirname $0)/xcp-begin
+
+if [ "$1" == "--exclude-new-buildnum" ]; then
+	BUILD_NUM=$(agvtool what-version | tail -2 | xargs echo)
+	read  -rd '' BUILD_NUM <<< "$BUILD_NUM"
+else
+	BUILD_NUM=$(agvtool next-version -all | tail -3 | awk 'NF{print $NF; exit}')
+fi
+
+re='^[0-9]+$'
+if ! [[ $BUILD_NUM =~ $re ]] ; then
+   echo "error: Can't Extract build number." >&2; exit 1
+fi
+
+echo "============ NOW DEPLOY TO ORIGIN : Build $BUILD_NUM ============"
+
+# push to origin
+git add -u
+git commit -m "[Build $BUILD_NUM - Beta]"
+$(git tag beta/b"$BUILD_NUM")
+git push -f origin "$CURRENT_BRANCH":release-beta
+git push origin $CURRENT_BRANCH
+$(git push origin beta/b"$BUILD_NUM")
+
+source $(dirname $0)/xcp-end

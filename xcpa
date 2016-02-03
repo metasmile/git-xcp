@@ -1,0 +1,47 @@
+#!/bin/bash
+
+function check_complict {
+	if $(git status --porcelain | grep UU); then
+	    echo Repo was Confilcted.; exit 1
+	fi
+}
+function check_clean {
+	if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+		echo Repo was NOT Cleaned.; exit 1
+	fi
+}
+STASH_ID="stash_id_tmp"
+function get_tmp_stash_id {
+	echo "$(git stash list | grep $STASH_ID | awk -F':' '{print $1}' | head -1)"
+}
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+
+check_complict
+git stash save -u $STASH_ID
+check_clean
+git pull origin $CURRENT_BRANCH
+check_complict
+echo "============ CLEANED. NOW START TASK... ============"
+
+
+
+git checkout master
+git pull origin master
+check_complict
+echo "============ NOW MERGING... ============"
+git merge --squash -X theirs $1
+
+echo "============ NOW DEPLOY TO ORIGIN : $1 ============"
+git add . && git commit -m "[Release $1]" && git push master
+git checkout $CURRENT_BRANCH
+
+
+# undo stash
+STASHED_ID=$(get_tmp_stash_id)
+if [ -n "$STASHED_ID" ]; then
+	if [ -n "$(git stash pop "$STASHED_ID" --index | egrep "Dropped $STASHED_ID")" ]; then
+		echo "Restored working directory and index state succesfully."
+	fi
+fi
+echo "============ DONE. ============"

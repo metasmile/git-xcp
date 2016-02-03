@@ -1,0 +1,8 @@
+# undo stash
+STASHED_ID=$(get_tmp_stash_id)
+if [ -n "$STASHED_ID" ]; then
+	if [ -n "$(git stash pop "$STASHED_ID" --index | egrep "Dropped $STASHED_ID")" ]; then
+		echo "Restored working directory and index state succesfully."
+	fi
+fi
+echo "============ DONE. ============"

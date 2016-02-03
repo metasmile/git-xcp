@@ -1,0 +1,11 @@
+#!/bin/bash
+PATT_RM='sed -E s/(^#\!\/bin\/bash|^source.+$)//g'
+TARGET_DIR=$(dirname $0)
+
+echo '#!/bin/bash' > $TARGET_DIR/$2 
+cat $TARGET_DIR/xcp-shared | $PATT_RM >> $TARGET_DIR/$2 \
+&& cat $TARGET_DIR/xcp-begin | $PATT_RM >> $TARGET_DIR/$2 \
+&& cat $TARGET_DIR/$1 | $PATT_RM >> $TARGET_DIR/$2 \
+&& cat $TARGET_DIR/xcp-end | $PATT_RM >> $TARGET_DIR/$2
+echo "$TARGET_DIR/$2"
+sudo chmod 755 $TARGET_DIR/$2

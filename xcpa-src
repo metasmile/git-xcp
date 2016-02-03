@@ -1,0 +1,14 @@
+source $(dirname $0)/xcp-shared
+source $(dirname $0)/xcp-begin
+
+git checkout master
+git pull origin master
+check_complict
+echo "============ NOW MERGING... ============"
+git merge --squash -X theirs $1
+
+echo "============ NOW DEPLOY TO ORIGIN : $1 ============"
+git add . && git commit -m "[Release $1]" && git push master
+git checkout $CURRENT_BRANCH
+
+source $(dirname $0)/xcp-end
