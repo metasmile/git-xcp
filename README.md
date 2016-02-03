@@ -51,7 +51,6 @@ ex) ~/YOUR_PROJECT$ xcpmake xcpexample-src xcpex
 Or, you can test with shaped like below.
 
 ```
-source $(dirname $0)/xcp-shared
 source $(dirname $0)/xcp-begin
 # your git commands are here.
 source $(dirname $0)/xcp-end
