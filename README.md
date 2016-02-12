@@ -15,9 +15,9 @@ Push to branch 'release-beta' with automatically increment build number, and cre
 Squash merge, and push version of release onto master branch from specific tag.
 
 ```
-~/YOUR_PROJECT$ xcpda {tag name of release version}
+~/YOUR_PROJECT$ xcpa {tag name of release version}
 
-ex) ~/YOUR_PROJECT$ xcpda 1.0
+ex) ~/YOUR_PROJECT$ xcpa 1.0
 ```
 
 # xcpn
@@ -28,6 +28,16 @@ If your app succesfully released AppStore, Let's start with new CFBundleShortVer
 ~/YOUR_PROJECT$ xcpn {target name} {new version name}
 
 ex) ~/YOUR_PROJECT$ xcpn project1 1.1
+```
+
+# xcps
+
+xcps create a tag from the lastest version(HEAD) automatically to manage for additional changes. And deploy as a "release-submit" branch. Maybe you should run this script after succesfully submitted to AppStore review team.
+
+```
+~/YOUR_PROJECT$ xcps {target name}
+
+ex) ~/YOUR_PROJECT$ xcps projectname
 ```
 
 # xcpmake
