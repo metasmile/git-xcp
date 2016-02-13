@@ -45,7 +45,13 @@ ex) ~/YOUR_PROJECT$ xcps projectname
 Add your new git tasks and create. xcpmake will automatically wrap general git tasks up.
 
 ## Make your own source script
-example filename : xcpexample-src
+create a source file to following path
+
+```
+./src/xcpexample-src
+```
+
+edit it
 
 ```
 # your git commands are here.
@@ -53,9 +59,13 @@ example filename : xcpexample-src
 
 ## And then
 ```
-~/YOUR_PROJECT$ xcpmake {source script file name} {file name to create}
+~/YOUR_PROJECT$ xcpmake xcpexample
+```
 
-ex) ~/YOUR_PROJECT$ xcpmake xcpexample-src xcpex
+It created.
+
+```
+./xcpexample
 ```
 
 Or, you can test with shaped like below.
