@@ -8,6 +8,12 @@ Push to branch 'release-beta' with automatically increment build number, and cre
 
 ```
 ~/YOUR_PROJECT$ xcpd
+ 
+--exclude-new-build-num
+Performs with same build number
+
+--revert
+Revert all processes (Remove already created tags, add a reverse commit)
 ```
 
 # xcpa
