@@ -32,7 +32,7 @@ fi
 
 VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$plist_path")  
 BUILD_NUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$plist_path")  
-TARGET_TAG=submit/"$TARGET"/"$VERSION"_b"$BUILD_NUM"
+TARGET_TAG="$TARGET"/submit/"$VERSION"_b"$BUILD_NUM"
 TARGET_BRANCH=release-submit-"$TARGET"
 DEST_BRANCH_PATH="$CURRENT_BRANCH":release-submit-"$TARGET"
 
