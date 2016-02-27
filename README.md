@@ -8,7 +8,7 @@ Push to branch 'release-beta' with automatically increment build number, and cre
 
 ```
 ~/YOUR_PROJECT$ xcpd
- 
+
 --exclude-new-build-num
 Performs with same build number
 
@@ -21,9 +21,9 @@ Revert all processes (Remove already created tags, add a reverse commit)
 Squash merge, and push version of release onto master branch from specific tag.
 
 ```
-~/YOUR_PROJECT$ xcpa {tag name of release version}
+~/YOUR_PROJECT$ xcpa {target name}
 
-ex) ~/YOUR_PROJECT$ xcpa 1.0
+ex) ~/YOUR_PROJECT$ xcpa project1
 ```
 
 # xcpn
