@@ -6,17 +6,17 @@ if [ -z "$plist_path" ]; then
 	echo "[!] Not found plist of given target. $TARGET"; exit 1
 fi
 
-VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$plist_path")  
-BUILD_NUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$plist_path")  
+VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$plist_path")
+BUILD_NUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$plist_path")
 TARGET_TAG="$TARGET"/submit/"$VERSION"_b"$BUILD_NUM"
 TARGET_BRANCH=release-submit-"$TARGET"
-DEST_BRANCH_PATH="$CURRENT_BRANCH":release-submit-"$TARGET"
+DEST_BRANCH_PATH="$current_branch":release-submit-"$TARGET"
 
 if [ -n "git branch --list --all | grep remotes/origin | grep $TARGET_BRANCH" ]; then
 	git branch $TARGET_BRANCH
 fi
 
-git push -f origin $DEST_BRANCH_PATH && git push origin $CURRENT_BRANCH
+git push -f origin $DEST_BRANCH_PATH && git push origin $current_branch
 git tag "$TARGET_TAG" && git push origin "$TARGET_TAG"
 
 source $(dirname $0)/xcp-end

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function check_complict {
+function check_conflict {
 	if $(git status --porcelain | grep UU); then
 	    echo Repo was Confilcted.; exit 1
 	fi
@@ -10,17 +10,16 @@ function check_clean {
 		echo Repo was NOT Cleaned.; exit 1
 	fi
 }
-STASH_ID="stash_id_tmp"
+tmp_stash_id="stash_id_tmp"
 function get_tmp_stash_id {
-	echo "$(git stash list | grep $STASH_ID | awk -F':' '{print $1}' | head -1)"
+	echo "$(git stash list | grep $tmp_stash_id | awk -F':' '{print $1}' | head -1)"
 }
-CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-
-check_complict
-git stash save -u $STASH_ID
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+check_conflict
+git stash save -u $tmp_stash_id
 check_clean
-git pull origin $CURRENT_BRANCH
-check_complict
+git pull origin $current_branch
+check_conflict
 echo "============ CLEANED. NOW START TASK... ============"
 
 
@@ -32,14 +31,14 @@ if [ -z "$2" ]; then
 	echo "[!] Please provide CFBundleShortVersionString (Marketing version). $1"; exit 1
 fi
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $2" $plist_path
-git add . && git commit -m "[Open - $1 - $2]" && git push origin $CURRENT_BRANCH
+git add . && git commit -m "[Open - $1 - $2]" && git push origin $current_branch
 echo $2
 
 
 # undo stash
-STASHED_ID=$(get_tmp_stash_id)
-if [ -n "$STASHED_ID" ]; then
-	if [ -n "$(git stash pop "$STASHED_ID" --index | egrep "Dropped $STASHED_ID")" ]; then
+tmp_stash_id=$(get_tmp_stash_id)
+if [ -n "$tmp_stash_id" ]; then
+	if [ -n "$(git stash pop "$tmp_stash_id" --index | egrep "Dropped $tmp_stash_id")" ]; then
 		echo "Restored working directory and index state succesfully."
 	fi
 fi

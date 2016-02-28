@@ -1,0 +1,53 @@
+#!/usr/bin/env sh
+
+usage() {
+	echo "usage: git xcp <command> [option]"
+	echo
+	echo "commands:"
+	echo "beta [option]		Push to branch 'release-beta' with automatically increment build number, and create tag. 'beta/b{buildNumber}'"
+	echo "	--same-build	Performs with same build number."
+	echo "	--revert 	Remove already created tags + add a reverse commit."
+	echo
+	echo "archive <scheme>	Squash merge, and push version of release onto 'master' branch via release commit '[Release - {scheme} - {version}]', and creates a tag '{scheme}/{version}'."
+	echo
+	echo "submit <scheme>		Create a tag '{scheme}/submit/{CFBundleShortVersionString}_b{CFBundleVersion}' from the lastest version(HEAD) automatically to manage for additional changes,"
+	echo "			And deploy as a 'release-submit' branch. Maybe you should run this script after succesfully submitted to AppStore review team."
+	echo
+	echo "new <scheme> <version> 	If your app succesfully released AppStore, Let's start with new CFBundleShortVersionString."
+	echo
+	echo "examples:"
+	echo "git xcp beta"
+	echo "git xcp beta --revert"
+	echo "git xcp submit MyApp"
+	echo "git xcp archive MyApp"
+	echo "git xcp new MyApp 1.1"
+	echo
+}
+
+version() {
+	echo "0.1"
+}
+
+main() {
+	if [ "$#" -lt 1 ]; then
+		usage; exit 1
+	fi
+
+	local subcommand="$1"; shift
+	case $subcommand in
+		"-h"|"--help")
+			usage; exit 0
+			;;
+		"-v"|"--version")
+			version; exit 0
+			;;
+	esac
+
+	local workingdir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+	if [ ! -e "$workingdir/git-xcp-$subcommand" ]; then
+		usage; exit 1
+	fi
+
+	source "$workingdir/git-xcp-$subcommand" "$@"
+}
+main "$@"

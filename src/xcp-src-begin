@@ -1,0 +1,22 @@
+#!/bin/bash
+function check_conflict {
+	if $(git status --porcelain | grep UU); then
+	    echo Repo was Confilcted.; exit 1
+	fi
+}
+function check_clean {
+	if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+		echo Repo was NOT Cleaned.; exit 1
+	fi
+}
+tmp_stash_id="stash_id_tmp"
+function get_tmp_stash_id {
+	echo "$(git stash list | grep $tmp_stash_id | awk -F':' '{print $1}' | head -1)"
+}
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+check_conflict
+git stash save -u $tmp_stash_id
+check_clean
+git pull origin $current_branch
+check_conflict
+echo "============ CLEANED. NOW START TASK... ============"

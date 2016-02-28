@@ -8,7 +8,7 @@ if [ -z "$2" ]; then
 	echo "[!] Please provide CFBundleShortVersionString (Marketing version). $1"; exit 1
 fi
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $2" $plist_path
-git add . && git commit -m "[Open - $1 - $2]" && git push origin $CURRENT_BRANCH
+git add . && git commit -m "[Open - $1 - $2]" && git push origin $current_branch
 echo $2
 
 source $(dirname $0)/xcp-end

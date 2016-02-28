@@ -1,90 +1,101 @@
 # git-xcp
 
-The most simplest, safe, and config zero git pipelines, xcp lets you manage version of your Xcode project without currently working content. Safe from conflict or loss.
+The most simplest, safe, and config-zero git workflow for real Xcode project. Current working content is safe from conflict or loss.
 
-# xcpd
+# Install
+
+```
+$ (sudo) make install
+```
+
+# Usage
+```
+git xcp <command> [option]
+```
+
+# Subcommands
+## beta
 
 Push to branch 'release-beta' with automatically increment build number, and create tag.(b/{buildNumber})
-
 ```
-~/YOUR_PROJECT$ xcpd
+$ git xcp beta
+```
 
---exclude-new-build-num
 Performs with same build number
-
---revert
-Revert all processes (Remove already created tags, add a reverse commit)
+```
+$ git xcp beta --same-build
 ```
 
-# xcpa
-
-Squash merge, and push version of release onto master branch from specific tag.
-
+Remove already created tags, add a reverse commit.
 ```
-~/YOUR_PROJECT$ xcpa {target name}
-
-ex) ~/YOUR_PROJECT$ xcpa project1
+$ git xcp beta --revert
 ```
 
-# xcpn
+# submit
+
+Create a tag '{scheme}/submit/{CFBundleShortVersionString}_b{CFBundleVersion}' from the lastest version(HEAD) automatically to manage for additional changes, And deploy as a "release-submit" branch. Maybe you should run this script after succesfully submitted to AppStore review team.
+
+```
+$ git xcp submit MyApp
+```
+
+## archive
+
+Squash merge, and push version of release onto 'master' branch via commit '[Release - MyApp - 1.0]', and creates a tag 'MyApp/1.0'"
+
+```
+$ git xcp archive MyApp
+```
+
+## new
 
 If your app succesfully released AppStore, Let's start with new CFBundleShortVersionString.
 
 ```
-~/YOUR_PROJECT$ xcpn {target name} {new version name}
-
-ex) ~/YOUR_PROJECT$ xcpn project1 1.1
+$ git xcp new MyApp 1.1 (from 1.0)
 ```
 
-# xcps
+# Make your own subcommands
 
-xcps create a tag from the lastest version(HEAD) automatically to manage for additional changes. And deploy as a "release-submit" branch. Maybe you should run this script after succesfully submitted to AppStore review team.
-
-```
-~/YOUR_PROJECT$ xcps {target name}
-
-ex) ~/YOUR_PROJECT$ xcps projectname
-```
-
-# xcpmake
-
-Add your new git tasks and create. xcpmake will automatically wrap general git tasks up.
-
-## Make your own source script
-create a source file to following path
+Also, You can add your new subcommand. 'Makexcp' will automatically wrap general git tasks up.
+ Let's create a source file to following path.
 
 ```
-./src/xcpexample-src
+touch ./src/xcp-mycmd
 ```
 
-edit it
+edit 'xcp-mycmd'
 
 ```
-# your git commands are here.
+# add your scripts here
 ```
 
-## And then
+And then,
 ```
-~/YOUR_PROJECT$ xcpmake xcpexample
-```
-
-It created.
-
-```
-./xcpexample
+$ ./Makexcp mycmd
 ```
 
-Or, you can test with shaped like below.
+It creates
 
 ```
-source $(dirname $0)/xcp-begin
-# your git commands are here.
-source $(dirname $0)/xcp-end
+./git-xcp-mycmd
 ```
 
-# If and when it throw any error..
+And, you can contain it into git-xcp command.
+Open 'Makefile', and add following lines.
 
-Simply just do below.
 ```
-~/YOUR_PROJECT$ git stash pop
+...
+install:
+	./Makexcp beta
+	./Makexcp submit
+	./Makexcp archive
+	./Makexcp new
+    ./Makexcp mycmd <- your command was added.
+...
+```
+
+Finally, Install them.
+```
+$ make install
 ```

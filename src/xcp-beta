@@ -6,37 +6,34 @@ read  -rd '' BUILD_NUM <<< "$BUILD_NUM"
 
 re='^[0-9]+$'
 if ! [[ $BUILD_NUM =~ $re ]] ; then
-   echo "error: Can't Extract build number." >&2; exit 1
+   echo "error: Can't Extract build number. Maybe your project has not 'CURRENT_PROJECT_VERSION' key in plist." >&2; exit 1
 fi
 
 if [ "$1" == "--revert" ]; then
-    echo "============ NOW REVERT : Build $BUILD_NUM ============"
-
+    echo "# Now revert : Build $BUILD_NUM ..."
     TAG=beta/b$BUILD_NUM
-    LASTCOMMIT_SHA=$(git show-ref --heads --hash --tags "$TAG")
-    if [ -z "$LASTCOMMIT_SHA" ]; then
+    last_commit_sha=$(git show-ref --heads --hash --tags "$TAG")
+    if [ -z "$last_commit_sha" ]; then
     	echo "[!] Not found matched SHA via current build number"; exit 1
     fi
-    git revert $LASTCOMMIT_SHA --no-edit
-    git push origin $CURRENT_BRANCH
-
+    git revert $last_commit_sha --no-edit
+    git push origin $current_branch
     git fetch --tags
     git tag -d $TAG
     git push origin :refs/tags/$TAG
-    
+
 else
     if ! [ "$1" == "--exclude-new-buildnum" ]; then
         BUILD_NUM=$(agvtool next-version -all | tail -3 | awk 'NF{print $NF; exit}')
     fi
-
-    echo "============ NOW DEPLOY TO ORIGIN : Build $BUILD_NUM ============"
-
+    
+    echo "# Now deploy to origin : Build $BUILD_NUM"
     # push to origin
     git add -u
     git commit -m "[Build $BUILD_NUM - Beta]"
     $(git tag beta/b"$BUILD_NUM")
-    git push -f origin "$CURRENT_BRANCH":release-beta
-    git push origin $CURRENT_BRANCH
+    git push -f origin "$current_branch":release-beta
+    git push origin $current_branch
     $(git push origin beta/b"$BUILD_NUM")
 fi
 
