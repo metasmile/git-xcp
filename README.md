@@ -1,6 +1,6 @@
 # git-xcp
 
-The most simplest, safe, and config-zero git workflow for real Xcode project. Current working content is safe from conflict or loss.
+The most simplest, safe, and config-zero git plugin for actual deployment workflow of Xcode project. Current working content is safe from conflict or loss.
 
 ![flow](https://raw.githubusercontent.com/metasmile/git-xcp/master/git-xcp.png)
 
