@@ -1,0 +1,10 @@
+#!/bin/bash
+PATT_RM='sed -E s/(^#\!\/bin\/bash|^source.+$)//g'
+TARGET_DIR=$(dirname $0)
+TARGET_FILE="git-xcp-$1"
+echo '#!/bin/bash' > $TARGET_DIR/$TARGET_FILE
+cat $TARGET_DIR/src/xcp-src-begin | $PATT_RM >> $TARGET_DIR/$TARGET_FILE \
+&& cat $TARGET_DIR/src/xcp-$1 | $PATT_RM >> $TARGET_DIR/$TARGET_FILE \
+&& cat $TARGET_DIR/src/xcp-src-end | $PATT_RM >> $TARGET_DIR/$TARGET_FILE
+echo "$TARGET_DIR/$TARGET_FILE"
+sudo chmod +x $TARGET_DIR/$TARGET_FILE
