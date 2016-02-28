@@ -5,4 +5,4 @@ if [ -n "$tmp_stash_id" ]; then
 		echo "Restored working directory and index state succesfully."
 	fi
 fi
-echo "============ DONE. ============"
+echo "# Done."

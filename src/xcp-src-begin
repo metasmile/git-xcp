@@ -19,4 +19,4 @@ git stash save -u $tmp_stash_id
 check_clean
 git pull origin $current_branch
 check_conflict
-echo "============ CLEANED. NOW START TASK... ============"
+echo "# Cleaned. Now start tasks ..."

@@ -20,7 +20,7 @@ git stash save -u $tmp_stash_id
 check_clean
 git pull origin $current_branch
 check_conflict
-echo "============ CLEANED. NOW START TASK... ============"
+echo "# Cleaned. Now start tasks ..."
 
 echo "# Retrieve submitted tag ..."
 plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
@@ -55,4 +55,4 @@ if [ -n "$tmp_stash_id" ]; then
 		echo "Restored working directory and index state succesfully."
 	fi
 fi
-echo "============ DONE. ============"
+echo "# Done."
