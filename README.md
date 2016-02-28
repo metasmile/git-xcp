@@ -13,6 +13,15 @@ $ (sudo) make install
 # Usage
 ```
 git xcp <command> [option]
+
+commands:
+	beta [option]
+		--same-build
+		--revert
+
+	archive <scheme>
+	submit <scheme>
+	new <scheme> <version>
 ```
 
 # Subcommands
