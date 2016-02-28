@@ -33,7 +33,7 @@ Remove already created tags, add a reverse commit.
 $ git xcp beta --revert
 ```
 
-# submit
+## submit
 
 Create a tag '{scheme}/submit/{CFBundleShortVersionString}_b{CFBundleVersion}' from the lastest version(HEAD) automatically to manage for additional changes, And deploy as a "release-submit" branch. Maybe you should run this script after succesfully submitted to AppStore review team.
 
@@ -57,7 +57,7 @@ If your app succesfully released AppStore, Let's start with new CFBundleShortVer
 $ git xcp new MyApp 1.1 (from 1.0)
 ```
 
-# Make your own subcommands
+## Make your own subcommands
 
 Also, You can add your new subcommand. 'Makexcp' will automatically wrap general git tasks up.
  Let's create a source file to following path.
