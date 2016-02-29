@@ -24,7 +24,7 @@ commands:
 	new <scheme> <version>
 ```
 
-# Subcommands
+# Commands
 ## beta
 
 Push to branch 'release-beta' with automatically increment build number, and create tag.(b/{buildNumber})
@@ -66,7 +66,7 @@ If your app succesfully released AppStore, Let's start with new CFBundleShortVer
 $ git xcp new MyApp 1.1 (from 1.0)
 ```
 
-## Make your own subcommands
+## Make your own commands
 
 Also, You can add your new subcommand. 'Makexcp' will automatically wrap general git tasks up.
  Let's create a source file to following path.
