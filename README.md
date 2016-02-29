@@ -1,6 +1,6 @@
 # git-xcp
 
-The most simplest, safe, and config-zero git plugin for actual deployment workflow of Xcode project. Current working or draft content(unstaged, untracked or uncommitted files) is safe from conflict or loss.
+The most simplest, safe, and fully automatic git plugin for versioning workflow of real-world xcode projects. Current working or draft content(unstaged, untracked or uncommitted files) is safe from conflict or loss.
 
 ![flow](https://raw.githubusercontent.com/metasmile/git-xcp/master/git-xcp.png?v=5)
 
