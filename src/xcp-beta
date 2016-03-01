@@ -23,7 +23,7 @@ if [ "$1" == "--revert" ]; then
     git push origin :refs/tags/$TAG
 
 else
-    if ! [ "$1" == "--exclude-new-buildnum" ]; then
+    if ! [ "$1" == "--same-build" ]; then
         BUILD_NUM=$(agvtool next-version -all | tail -3 | awk 'NF{print $NF; exit}')
     fi
     

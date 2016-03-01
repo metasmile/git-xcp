@@ -18,10 +18,9 @@ commands:
 	beta [option]
 		--same-build
 		--revert
-
-	archive <scheme>
-	submit <scheme>
-	new <scheme> <version>
+	submit <project target>
+	archive <project target>
+	new <project target> <version>
 ```
 
 # Commands
