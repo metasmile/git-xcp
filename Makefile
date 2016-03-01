@@ -10,7 +10,7 @@ install:
 	./Makexcp beta
 	./Makexcp submit
 	./Makexcp archive
-	./Makexcp new	
+	./Makexcp new
 	install -d -m 0755 $(BIN_DIR)
 	install -m 0755 $(LOADER) $(BIN_DIR)
 	install -m 0644 $(COMMANDS) $(BIN_DIR)
