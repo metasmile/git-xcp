@@ -1,4 +1,5 @@
-BIN_DIR   = /usr/local/bin
+prefix = /usr/local
+BIN_DIR   = $(prefix)/bin
 LOADER    = git-xcp
 COMMANDS  = git-xcp-beta git-xcp-submit git-xcp-archive git-xcp-new
 
