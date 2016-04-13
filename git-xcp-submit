@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function get_plist_path {
+	echo "# Retrieve a plist path for \"$1\" ..." 1>&2
+	plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
+	if [ -z "$plist_path" ]; then
+		echo "[!] Not found plist of given target. \"$1\"" 1>&2; exit 1; return 0;
+	fi
+	echo $plist_path
+}
 function check_conflict {
 	if $(git status --porcelain | grep UU); then
 	    echo Repo was Confilcted.; exit 1

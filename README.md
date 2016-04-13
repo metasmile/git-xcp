@@ -15,9 +15,9 @@ $ (sudo) make install
 git xcp <command> [option]
 
 commands:
-	beta [option]
-		--same-build
-		--revert
+	beta <project target> [option]
+						--same-build
+						--revert
 	submit <project target>
 	archive <project target>
 	new <project target> <version>
@@ -26,19 +26,19 @@ commands:
 # Commands
 ## beta
 
-Push to branch 'release-beta' with automatically increment build number, and create tag.(b/{buildNumber})
+Push to branch 'release-beta' with automatically increment build number, and create tag.(MyApp/beta/b{CFBundleVersion})
 ```
-$ git xcp beta
+$ git xcp beta MyApp
 ```
 
 Performs with same build number
 ```
-$ git xcp beta --same-build
+$ git xcp beta MyApp --same-build
 ```
 
 Remove already created tags, add a reverse commit.
 ```
-$ git xcp beta --revert
+$ git xcp beta MyApp --revert
 ```
 
 ## submit

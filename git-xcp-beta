@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function get_plist_path {
+	echo "# Retrieve a plist path for \"$1\" ..." 1>&2
+	plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
+	if [ -z "$plist_path" ]; then
+		echo "[!] Not found plist of given target. \"$1\"" 1>&2; exit 1; return 0;
+	fi
+	echo $plist_path
+}
 function check_conflict {
 	if $(git status --porcelain | grep UU); then
 	    echo Repo was Confilcted.; exit 1
@@ -23,8 +31,9 @@ check_conflict
 echo "# Cleaned. Now start tasks ..."
 
 
-
-BUILD_NUM=$(agvtool what-version | tail -2 | xargs echo)
+plist=$(get_plist_path "$1") || exit 1;
+BUILD_NUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$plist" | /usr/bin/perl -pe 's/(\d+\.\d+\.)(\d+)/$1.($2+1)/eg')
+NEXT_BUILD_NUM=$((BUILD_NUM + 1))
 read  -rd '' BUILD_NUM <<< "$BUILD_NUM"
 
 re='^[0-9]+$'
@@ -32,9 +41,10 @@ if ! [[ $BUILD_NUM =~ $re ]] ; then
    echo "error: Can't Extract build number. Maybe your project has not 'CURRENT_PROJECT_VERSION' key in plist." >&2; exit 1
 fi
 
-if [ "$1" == "--revert" ]; then
+if [ "$2" == "--revert" ]; then
     echo "# Now revert : Build $BUILD_NUM ..."
-    TAG=beta/b$BUILD_NUM
+    TAG="$1/beta/b$BUILD_NUM"
+    
     last_commit_sha=$(git show-ref --heads --hash --tags "$TAG")
     if [ -z "$last_commit_sha" ]; then
     	echo "[!] Not found matched SHA via current build number"; exit 1
@@ -46,18 +56,20 @@ if [ "$1" == "--revert" ]; then
     git push origin :refs/tags/$TAG
 
 else
-    if ! [ "$1" == "--same-build" ]; then
-        BUILD_NUM=$(agvtool next-version -all | tail -3 | awk 'NF{print $NF; exit}')
+    if ! [ "$2" == "--same-build" ]; then
+        /usr/libexec/PListBuddy -c "Set :CFBundleVersion $NEXT_BUILD_NUM" $plist
+        BUILD_NUM=$NEXT_BUILD_NUM
     fi
-    
-    echo "# Now deploy to origin : Build $BUILD_NUM"
+    TAG="$1/beta/b$BUILD_NUM"
+    beta_build_name="$1/$BUILD_NUM"
+    echo "# Now deploy to origin : Build $beta_build_name"
     # push to origin
     git add -u
-    git commit -m "[Build $BUILD_NUM - Beta]"
-    $(git tag beta/b"$BUILD_NUM")
+    git commit -m "[Build $beta_build_name - Beta]"
+    $(git tag $TAG)
     git push -f origin "$current_branch":release-beta
     git push origin $current_branch
-    $(git push origin beta/b"$BUILD_NUM")
+    $(git push origin $TAG)
 fi
 
 

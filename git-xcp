@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 
 usage() {
-	echo "usage: git xcp <command> [option]"
+	echo "usage: git xcp <command> [option ...]"
 	echo
 	echo "commands:"
-	echo "beta [option]		Push to branch 'release-beta' with automatically increment build number, and create tag. 'beta/b{buildNumber}'"
-	echo "	--same-build	Performs with same build number."
-	echo "	--revert 	Remove already created tags + add a reverse commit."
+	echo "beta <project target> [option]		Push to branch 'release-beta' with automatically increment build number, and create tag. 'beta/b{buildNumber}'"
+	echo "			--same-build	Performs with same build number."
+	echo "			--revert	Remove already created tags + add a reverse commit."
 	echo
 	echo "archive <project target>	Squash merge, and push version of release onto 'master' branch via release commit '[Release - {scheme} - {version}]', and creates a tag '{scheme}/{version}'."
 	echo
@@ -16,8 +16,8 @@ usage() {
 	echo "new <project target> <version> 	If your app succesfully released AppStore, Let's start with new CFBundleShortVersionString."
 	echo
 	echo "examples:"
-	echo "git xcp beta"
-	echo "git xcp beta --revert"
+	echo "git xcp beta MyApp"
+	echo "git xcp beta MyApp --revert"
 	echo "git xcp submit MyApp"
 	echo "git xcp archive MyApp"
 	echo "git xcp new MyApp 1.1"
