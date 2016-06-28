@@ -17,6 +17,6 @@ if [ -n "git branch --list --all | grep remotes/origin | grep $TARGET_BRANCH" ];
 fi
 
 git push -f origin $DEST_BRANCH_PATH && git push origin $current_branch
-git tag "$TARGET_TAG" && git push origin "$TARGET_TAG"
+git tag "$TARGET_TAG" -f && git push origin "$TARGET_TAG" -f
 
 source $(dirname $0)/xcp-end
