@@ -19,7 +19,7 @@ git checkout master
 git pull origin master
 check_conflict
 echo "# Now merging ..."
-git merge --squash -X theirs $lastest_submitted_tag_name
+git merge --allow-unrelated-histories --squash -X theirs $lastest_submitted_tag_name
 echo "# Now deploy to origin : $release_tag_name ..."
 git add . && git commit -m "[Release $release_tag_name]" && git push origin master
 git checkout $current_branch
