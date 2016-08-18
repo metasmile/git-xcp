@@ -1,4 +1,6 @@
-# git-xcp
+# git-xcp 
+
+[![Stories in Ready](https://badge.waffle.io/metasmile/git-xcp.svg?label=ready&title=Tasks)](http://waffle.io/metasmile/git-xcp)
 
 The most simplest, safe, and fully automatic git plugin for versioning workflow of real-world xcode projects. Current working or draft content(unstaged, untracked or uncommitted files) is safe from conflict or loss.
 
