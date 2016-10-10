@@ -41,7 +41,7 @@ if [ -z "$VERSION" ]; then
 fi
 lastest_submitted_tag_name=$(git describe --abbrev=0 --tags --match "$1"/submit/"$VERSION"*)
 if [ -z "$lastest_submitted_tag_name" ]; then
-	echo "[!] Not Found lastest submitted tag "$1"/submit/"$VERSION"*. Try 'git xcp submit $VERSION' first."; exit 1
+	echo "[!] Not Found lastest submitted tag "$1"/submit/"$VERSION". Try 'git xcp submit $1' first."; exit 1
 fi
 release_tag_name="$1/$VERSION"
 git checkout $lastest_submitted_tag_name
