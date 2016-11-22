@@ -35,10 +35,9 @@ else
     # push to origin
     git add -u
     git commit -m "[Build $beta_build_name - Beta]"
-    $(git tag $TAG)
     git push -f origin "$current_branch":release-beta
     git push origin $current_branch
-    $(git push origin $TAG)
+    git tag "$TAG" -f && git push origin "$TAG" -f
 fi
 
 source $(dirname $0)/xcp-end
