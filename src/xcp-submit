@@ -8,6 +8,14 @@ fi
 
 VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$plist_path")
 BUILD_NUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$plist_path")
+
+latest_built_tag_name=$(git describe --abbrev=0 --tags --match "$TARGET"/beta/b"$BUILD_NUM")
+if [ -z "$latest_built_tag_name" ]; then
+	echo "[!] Not Found the latest built tag "$TARGET"/beta/b"$BUILD_NUM". Try 'git xcp beta $TARGET' first."; exit 1
+fi
+
+git checkout $latest_built_tag_name
+
 TARGET_TAG="$TARGET"/submit/"$VERSION"_b"$BUILD_NUM"
 TARGET_BRANCH=release-submit-"$TARGET"
 DEST_BRANCH_PATH="$current_branch":release-submit-"$TARGET"
@@ -16,7 +24,9 @@ if [ -n "git branch --list --all | grep remotes/origin | grep $TARGET_BRANCH" ];
 	git branch $TARGET_BRANCH
 fi
 
-git push -f origin $DEST_BRANCH_PATH && git push origin $current_branch
+git push -f origin $DEST_BRANCH_PATH
 git tag "$TARGET_TAG" -f && git push origin "$TARGET_TAG" -f
+
+git checkout $current_branch
 
 source $(dirname $0)/xcp-end
