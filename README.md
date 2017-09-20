@@ -10,7 +10,7 @@ The most simplest, safe, and fully automatic git plugin for versioning workflow 
 # Install
 
 ```
-$ (sudo) make install
+$ git clone https://github.com/metasmile/git-xcp.git && cd git-xcp && sudo make install
 ```
 
 # Usage
