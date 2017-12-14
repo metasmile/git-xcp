@@ -23,7 +23,7 @@ function get_tmp_stash_id {
 }
 current_branch="$(git rev-parse --abbrev-ref HEAD)"
 check_conflict
-git stash save -u $tmp_stash_id
+git stash save -u $tmp_stash_id --include-untracked
 check_clean
 git pull origin $current_branch
 check_conflict
