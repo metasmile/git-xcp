@@ -1,9 +1,8 @@
+#!/bin/bash
 source $(dirname $0)/xcp-begin
 
-plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
-if [ -z "$plist_path" ]; then
-	echo "[!] Not found plist of given target. $1"; exit 1
-fi
+plist_path=$(get_plist_path "$1") || exit 1;
+
 if [ -z "$2" ]; then
 	echo "[!] Please provide CFBundleShortVersionString (Marketing version). $1"; exit 1
 fi

@@ -1,9 +1,10 @@
+#!/bin/bash
+
 source $(dirname $0)/xcp-begin
+
 echo "# Retrieve submitted tag ..."
-plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
-if [ -z "$plist_path" ]; then
-	echo "[!] Not found plist of given target. $1"; exit 1
-fi
+plist_path=$(get_plist_path "$1") || exit 1;
+
 VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$plist_path")
 if [ -z "$VERSION" ]; then
 	echo "[!] Not Found CFBundleShortVersionString for given project target. $1"; exit 1

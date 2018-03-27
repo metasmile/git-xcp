@@ -1,5 +1,6 @@
 #!/bin/bash
 source $(dirname $0)/xcp-begin
+
 plist=$(get_plist_path "$1") || exit 1;
 BUILD_NUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$plist" | /usr/bin/perl -pe 's/(\d+\.\d+\.)(\d+)/$1.($2+1)/eg')
 NEXT_BUILD_NUM=$((BUILD_NUM + 1))
@@ -13,7 +14,7 @@ fi
 if [ "$2" == "--revert" ]; then
     echo "# Now revert : Build $BUILD_NUM ..."
     TAG="$1/beta/b$BUILD_NUM"
-    
+
     last_commit_sha=$(git show-ref --heads --hash --tags "$TAG")
     if [ -z "$last_commit_sha" ]; then
     	echo "[!] Not found matched SHA via current build number"; exit 1
@@ -35,7 +36,7 @@ else
     # push to origin
     git add -u
     git commit -m "[Build $beta_build_name - Beta]"
-    git push -f origin "$current_branch":release-beta
+    git push -f origin "$current_branch":release-beta-"$TARGET"
     git push origin $current_branch
     git tag "$TAG" -f && git push origin "$TAG" -f
 fi

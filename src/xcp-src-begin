@@ -1,4 +1,5 @@
 #!/bin/bash
+TARGET=$1
 function get_plist_path {
 	echo "# Retrieve a plist path for \"$1\" ..." 1>&2
 	plist_path=$(/usr/bin/xcrun xcodebuild -showBuildSettings -target $1 2>/dev/null | grep "INFOPLIST_FILE" | sed 's/[ ]*INFOPLIST_FILE = //')
