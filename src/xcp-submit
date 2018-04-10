@@ -15,12 +15,11 @@ git checkout $latest_built_tag_name
 TARGET_TAG="$TARGET"/submit/"$VERSION"_b"$BUILD_NUM"
 TARGET_BRANCH=release-submit-"$TARGET"
 
-git branch $TARGET_BRANCH $latest_built_tag_name
-git checkout $TARGET_BRANCH && git push -f origin $TARGET_BRANCH
-
-if [ $? -eq 0 ]; then
-	git tag "$TARGET_TAG" -f && git push origin "$TARGET_TAG" -f
-fi
+git branch $TARGET_BRANCH $latest_built_tag_name -f && \
+git checkout $TARGET_BRANCH && \
+git push -f origin $TARGET_BRANCH && \
+git tag "$TARGET_TAG" -f && \
+git push origin "$TARGET_TAG" -f
 
 git checkout $current_branch
 
